@@ -6,7 +6,7 @@ App         = require("./src/app.coffee")
 development = process.env.NODE_ENV isnt "production"
 
 app = express()
-app.port = process.env.port or '3000'
+app.port = process.env.PORT or '3000'
 
 renderApp = (req, res, next) ->
   path = url.parse(req.url).pathname
@@ -21,6 +21,7 @@ api = express().get("/users/:username", (req, res) ->
     username: username
     name: username.charAt(0).toUpperCase() + username.slice(1)
 )
+
 
 app.use "/assets", express.static(path.join(__dirname, "assets"))
 app.use "/api", api

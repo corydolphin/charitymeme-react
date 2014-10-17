@@ -1,0 +1,1 @@
+gulp production && coffee server.coffee

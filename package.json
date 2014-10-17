@@ -4,21 +4,14 @@
   "description": "React project",
   "main": "./server.js",
   "browser": "./client.js",
-  "browserify": {
-    "transform": [
-      [
-        "reactify",
-        {
-          "harmony": true
-        }
-      ]
-    ]
-  },
   "dependencies": {
-    "browserify": "^6.1.0",
+    "browserify": "*",
     "coffee-script": "^1.8.0",
+    "coffeeify": "^0.7.0",
+    "envify": "~1.2.0",
     "express": "^4.1.2",
     "fibers": "~1.0.1",
+    "gulp": "^3.8.8",
     "gulp-nodemon": "^1.0.4",
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "^1.0.1",
@@ -28,18 +21,12 @@
     "react": "^0.10.0",
     "react-async": "^0.9.4",
     "react-router-component": "^0.18.4",
+    "reactify": "~0.13.1",
     "superagent": "^0.20.0",
+    "supervisor": "~0.6.0",
     "uglify-js": "^2.4.15",
     "vinyl-source-stream": "*",
     "watchify": "*"
-  },
-  "devDependencies": {
-    "browserify": "*",
-    "coffeeify": "^0.7.0",
-    "envify": "~1.2.0",
-    "gulp-concat": "^2.4.1",
-    "reactify": "~0.13.1",
-    "supervisor": "~0.6.0"
   },
   "author": "",
   "license": "MIT"
