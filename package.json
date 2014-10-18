@@ -8,6 +8,8 @@
     "browserify": "*",
     "coffee-script": "^1.8.0",
     "coffeeify": "^0.7.0",
+    "connect-browserify": "^3.2.1",
+    "cssify": "^0.6.0",
     "envify": "~1.2.0",
     "express": "^4.1.2",
     "fibers": "~1.0.1",

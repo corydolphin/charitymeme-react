@@ -8,7 +8,7 @@ UserPage = React.createClass
   mixins: [ReactAsync.Mixin]
   statics:
     getUserInfo: (username, cb) ->
-      superagent.get "http://react-quickstart.herokuapp.com/api/users/" + username, (err, res) ->
+      superagent.get "http://localhost:3000/api/users/" + username, (err, res) ->
         cb err, (if res then res.body else null)
         return
 
