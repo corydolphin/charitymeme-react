@@ -23,14 +23,14 @@ api = express().get("/users/:username", (req, res) ->
     name: username.charAt(0).toUpperCase() + username.slice(1)
 )
 
-app.use "/assets/bundle.js", browserify(
-  entry: "./src/app.coffee"
-  transforms: ["coffeeify"]
-  extensions: [".coffee"]
-  debug: true
-)
+# app.use "/assets/bundle.js", browserify(
+#   entry: "./src/app.coffee"
+#   transforms: ["coffeeify"]
+#   extensions: [".coffee"]
+#   debug: true
+# )
 
-app.use "/assets", express.static(path.join(__dirname, "src"))
+app.use "/assets", express.static(path.join(__dirname, "assets"))
 
 app.use "/api", api
 app.use renderApp

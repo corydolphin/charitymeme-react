@@ -9,6 +9,8 @@ MainPage = React.createClass
     React.DOM.div { className: "MainPage"},
       React.DOM.h1 null, "Hello, anonymous!"
       React.DOM.p null,
-        Link { href: "/users/doe" }, "Login"
+        Link {href: "/users/doe" },
+          React.DOM.i {className:'fa fa-user fa-6'}
+          "Login"
 
 module.exports = MainPage

@@ -6,6 +6,13 @@ source     = require 'vinyl-source-stream'
 watchify   = require 'watchify'
 streamify  = require 'gulp-streamify'
 uglify     = require 'gulp-uglify'
+bower      = require 'gulp-bower'
+sass       = require 'gulp-sass'
+
+config =
+  buildDir: 'assets'
+  src : 'src/'
+  bowerDir : 'bower_components'
 
 getBundle = ->
   browserify({ debug:true, cache: {}, packageCache: {}, fullPaths: true})
@@ -27,6 +34,16 @@ gulp.task "watchify", ->
   bundler.on 'time', timer
 
   updater()
+
+gulp.task "bower", ->
+  bower()
+  .pipe gulp.dest('bower_components')
+
+gulp.task "styles", ->
+  gulp.src('src/style.scss')
+  .pipe sass({includePaths: ['bower_components']})
+  .pipe gulp.dest('./assets')
+
 
 gulp.task "production", ->
   getBundle()
