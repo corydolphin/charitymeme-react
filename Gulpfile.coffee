@@ -8,6 +8,7 @@ streamify  = require 'gulp-streamify'
 uglify     = require 'gulp-uglify'
 bower      = require 'gulp-bower'
 sass       = require 'gulp-sass'
+rename     = require 'gulp-rename'
 
 config =
   buildDir: 'assets'
@@ -16,16 +17,16 @@ config =
 
 getBundle = ->
   browserify({ debug:true, cache: {}, packageCache: {}, fullPaths: true})
-  .add('./src/app.coffee')
+  .add('./src/scripts/app.coffee')
   .transform( 'coffeeify')
 
-gulp.task "watchify", ->
+gulp.task "watch-scripts", ->
   bundler = watchify getBundle()
 
   updater = (b) ->
     bundler.bundle()
     .pipe source("bundle.js")
-    .pipe gulp.dest("./assets")
+    .pipe gulp.dest(config.buildDir)
 
   timer = (time) ->
     gutil.log 'Bundle update. Elapsed time:', gutil.colors.cyan(time), 'ms'
@@ -40,9 +41,10 @@ gulp.task "bower", ->
   .pipe gulp.dest('bower_components')
 
 gulp.task "styles", ->
-  gulp.src('src/style.scss')
-  .pipe sass({includePaths: ['bower_components']})
-  .pipe gulp.dest('./assets')
+  gulp.src('./src/styles/main.scss')
+  .pipe sass({includePaths: [config.bowerDir]})
+  .pipe rename("style.css")
+  .pipe gulp.dest('./assets/')
 
 
 gulp.task "production", ->
@@ -52,14 +54,17 @@ gulp.task "production", ->
   .pipe streamify(uglify())
   .pipe gulp.dest('assets')
 
-gulp.task "watch", ->
+gulp.task 'watch-styles', ->
+  gulp.watch 'src/styles/*.scss', ['styles']
+
+gulp.task "server", ->
   nodemon(
     script: "server.coffee"
     ext: "coffee"
     ignore: [
-      "assets/bundle.js"
+      "assets/*"
       "**/node_modules/**/*"
     ]
   )
 
-gulp.task 'default', ['watch', 'watchify']
+gulp.task 'default', ['server','watch-scripts', 'styles','watch-styles']
