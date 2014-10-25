@@ -9,6 +9,7 @@ uglify     = require 'gulp-uglify'
 bower      = require 'gulp-bower'
 sass       = require 'gulp-sass'
 rename     = require 'gulp-rename'
+minifyCSS  = require 'gulp-minify-css'
 
 config =
   buildDir: 'assets'
@@ -36,9 +37,12 @@ gulp.task "watch-scripts", ->
 
   updater()
 
-gulp.task "bower", ->
-  bower()
-  .pipe gulp.dest('bower_components')
+gulp.task "production-scripts", ->
+  getBundle()
+  .bundle()
+  .pipe source("bundle.js")
+  .pipe streamify(uglify())
+  .pipe gulp.dest('assets')
 
 gulp.task "styles", ->
   gulp.src('./src/styles/main.scss')
@@ -46,13 +50,13 @@ gulp.task "styles", ->
   .pipe rename("style.css")
   .pipe gulp.dest('./assets/')
 
+gulp.task "production-styles", ->
+  gulp.src('./src/styles/main.scss')
+  .pipe sass({includePaths: [config.bowerDir]})
+  .pipe minifyCSS()
+  .pipe rename("style.css")
+  .pipe gulp.dest('./assets/')
 
-gulp.task "production", ->
-  getBundle()
-  .bundle()
-  .pipe source("bundle.js")
-  .pipe streamify(uglify())
-  .pipe gulp.dest('assets')
 
 gulp.task 'watch-styles', ->
   gulp.watch 'src/styles/*.scss', ['styles']
@@ -66,5 +70,7 @@ gulp.task "server", ->
       "**/node_modules/**/*"
     ]
   )
+
+gulp.task 'production', ['production-styles', 'production-scripts']
 
 gulp.task 'default', ['server','watch-scripts', 'styles','watch-styles']
